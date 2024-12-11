@@ -1,0 +1,99 @@
+VERSION = 1,
+
+option AirdropMain.DefaultAirdropCoordinates
+{
+    type = boolean,
+    default = true,
+    page = Airdrop,
+    translation = AD_DefaultAirdropCoordinates,
+}
+
+option AirdropMain.DefaultAirdropLootTable
+{
+    type = boolean,
+    default = true,
+    page = Airdrop,
+    translation = AD_DefaultAirdropLootTable,
+}
+
+option AirdropMain.AirdropRemovalTimer
+{
+	type = integer,
+	min = 0,
+	max = 9999999,
+	default = 24,
+	page = Airdrop,
+	translation = AD_AirdropRemovalTimer,
+}
+
+option AirdropMain.AirdropFrequency
+{
+	type = integer,
+	min = 0,
+	max = 100,
+	default = 5,
+	page = Airdrop,
+	translation = AD_AirdropFrequency,
+}
+
+option AirdropMain.AirdropTickCheck
+{
+	type = integer,
+	min = 0,
+	max = 9999999,
+	default = 30,
+	page = Airdrop,
+	translation = AD_AirdropTickCheck,
+}
+
+option AirdropMain.AirdropDisableDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = AD_AirdropDisableDespawn,
+}
+
+option AirdropMain.AirdropDisableOldDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = AD_AirdropDisableOldDespawn,
+}
+
+option AirdropMain.SmokeFlareHorde
+{
+	type = integer,
+	min = 0,
+	max = 7200,
+	default = 100,
+	page = Airdrop,
+	translation = AD_SmokeFlareHorde,
+}
+
+option AirdropMain.SmokeFlareHordeDistanceSpawn
+{
+	type = integer,
+	min = 10,
+	max = 90,
+	default = 75,
+	page = Airdrop,
+	translation = AD_SmokeFlareHordeDistanceSpawn,
+}
+
+option AirdropMain.AirdropConsoleDebug
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = AD_AirdropConsoleDebug,
+}
+
+option AirdropMain.AirdropConsoleDebugCoordinates
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = AD_AirdropConsoleDebugCoordinates,
+}
