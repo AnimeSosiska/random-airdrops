@@ -30,5 +30,5 @@ description=
 description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or [spoiler]pls, do this instead[/spoiler] on github page of mod. Love y'all <3
 description=
 description=If you would like to support me: [b]2200 2407 6361 2252[/b]
-tags=Build 41;Items;Military;Models;Multiplayer;Realistic
+tags=Build 41;Items;Military;Models;Multiplayer;Realistic;Textures
 visibility=public
