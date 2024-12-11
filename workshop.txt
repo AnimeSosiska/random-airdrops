@@ -1,6 +1,6 @@
 version=1
 id=3282789883
-title=Random Airdrops (Unofficial re-upload)
+title=Random Airdrops
 description=[img]https://media1.giphy.com/media/wRhSi68hscY8xNOlXS/giphy.gif[/img]
 description=[h1]A mod for Project Zomboid that allows to create random airdrops![/h1]
 description=[h2]And also:[/h2]
@@ -19,22 +19,16 @@ description=[*] Airdrops doesnt despawn if player is close
 description=[*] Message to player chat when the airdrop is spawned + area name (doesn't work in singleplayer because singleplayer doesn't have chat)
 description=[*] Air plane sound when the airdrop spawn
 description=[*] If the servers close, old airdrops will be deleted automatically (configurable)
-description=[*] Fully customizable loot table (see the github wiki)
-description=[*] Fully customizable spawn coordinates (see the github wiki)
+description=[*] Fully customizable loot table (see the github)
+description=[*] Fully customizable spawn coordinates (see the github)
 description=[/list]
-description=
-description=[h3]How to change loot tables or spawn coordinates[/h3]
-description=
-description=See wiki of original author: [url=https://github.com/LeandroTheDev/random_airdrops/wiki/Framework]Wiki[/url].
-description=
-description=[h3]IMPORTANT:[/h3]
-description=The airdrop loot tables and spawn starts empty, you can download a template from wiki or create one.
-description=
 description=
 description=Original creator of this mod is [url=https://github.com/LeandroTheDev]LeandroTheDev[/url]
 description=
-description=Original mod was deleted because of DMCA, so there's [b]now fixed[/b] and newer version. Fixed by [url=https://github.com/AnimeSosiska/random_airdrops]AnimeAss[/url]
+description=GitHub:[url=https://github.com/AnimeSosiska/random_airdrops]AnimeAss[/url]
 description=
-description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or on my github. Love y'all <3
+description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or [spoiler]pls, do this instead[/spoiler] on github page of mod. Love y'all <3
+description=
+description=If you would like to support me: [b]2200 2407 6361 2252[/b]
 tags=Build 41;Items;Military;Models;Multiplayer;Realistic
 visibility=public
