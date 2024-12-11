@@ -1,8 +1,8 @@
 module Base
 {
 	item SmokeFlare {
-                DisplayCategory = Junk,
-                Weight	=	0.0,
+                DisplayCategory = Tool,
+                Weight	=	0.1,
                 Type	=	Normal,
                 DisplayName	=	Smoke Flare,
                 Icon	=	smoke_flare,
