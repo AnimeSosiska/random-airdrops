@@ -20,6 +20,7 @@ The mod is must be compatible with dedicated servers and singleplayer
 - when the server starts all old airdrops will be despawned when the chunk loads
 
 Links to mod's wiki from original author:
+
 [Changing The Loot Table](https://github.com/LeandroTheDev/random_airdrops/wiki/Creating-Loot-Tables)
 
 [Changing Airdrop Spawn Coordinates](https://github.com/LeandroTheDev/random_airdrops/wiki/Adding-New-Coordinates-to-Spawn)
