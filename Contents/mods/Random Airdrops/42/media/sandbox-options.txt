@@ -1,0 +1,79 @@
+VERSION = 1,
+
+option AirdropMain.DefaultAirdropCoordinates
+{
+    type = boolean,
+    default = true,
+    page = Airdrop,
+    translation = RandomAirdrops_DefaultAirdropCoordinates,
+}
+
+option AirdropMain.DefaultAirdropLootTable
+{
+    type = boolean,
+    default = true,
+    page = Airdrop,
+    translation = RandomAirdrops_DefaultAirdropLootTable,
+}
+
+option AirdropMain.AirdropRemovalTimer
+{
+	type = integer,
+	min = 0,
+	max = 9999999,
+	default = 24,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropRemovalTimer,
+}
+
+option AirdropMain.AirdropFrequency
+{
+	type = integer,
+	min = 0,
+	max = 100,
+	default = 5,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropFrequency,
+}
+
+option AirdropMain.AirdropTickCheck
+{
+	type = integer,
+	min = 0,
+	max = 9999999,
+	default = 30,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropTickCheck,
+}
+
+option AirdropMain.AirdropDisableDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropDisableDespawn,
+}
+
+option AirdropMain.AirdropDisableOldDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropDisableOldDespawn,
+}
+
+option AirdropMain.AirdropConsoleDebug
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropConsoleDebug,
+}
+
+option AirdropMain.AirdropConsoleDebugCoordinates
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropConsoleDebugCoordinates,
+}
