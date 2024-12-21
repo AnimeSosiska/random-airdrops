@@ -1,9 +1,12 @@
 version=1
 id=3282789883
-title=Random Airdrops
+title=Random Airdrops [B42]
 description=[img]https://media1.giphy.com/media/wRhSi68hscY8xNOlXS/giphy.gif[/img]
-description=[h1]A mod for Project Zomboid that allows to create random airdrops![/h1]
-description=[h2]And also:[/h2]
+description=[h1]A mod for Project Zomboid that allows to create random airdrops! Now updated for Build 42![/h1]
+description=
+description=I changed [b]a lot of[/b] things when was updating this mod to b42, so pretty please send your feedback about bugs or whatever
+description=
+description=[h2]What this mod can do:[/h2]
 description=[list]
 description=[*] You can change perfomance tickrate
 description=[*] After how much hours to remove the airdrops
@@ -27,8 +30,8 @@ description=Original creator of this mod is [url=https://github.com/LeandroTheDe
 description=
 description=GitHub:[url=https://github.com/AnimeSosiska/random_airdrops]AnimeAss[/url]
 description=
-description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or [spoiler]pls, do this instead[/spoiler] on github page of mod. Love y'all <3
+description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or [spoiler](pls, do this instead)[/spoiler] on github page of mod. Love y'all <3
 description=
 description=If you would like to support me: [b]2200 2407 6361 2252[/b]
-tags=Build 41;Items;Military;Models;Multiplayer;Realistic;Textures
+tags=Build 41;Build 42;Items;Military;Models;Multiplayer;Realistic;Textures
 visibility=public

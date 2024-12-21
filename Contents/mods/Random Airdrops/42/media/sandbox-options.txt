@@ -26,6 +26,22 @@ option AirdropMain.AirdropRemovalTimer
 	translation = RandomAirdrops_AirdropRemovalTimer,
 }
 
+option AirdropMain.AirdropDisableDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropDisableDespawn,
+}
+
+option AirdropMain.AirdropDisableOldDespawn
+{
+	type = boolean,
+	default = false,
+	page = Airdrop,
+	translation = RandomAirdrops_AirdropDisableOldDespawn,
+}
+
 option AirdropMain.AirdropFrequency
 {
 	type = integer,
@@ -44,22 +60,6 @@ option AirdropMain.AirdropTickCheck
 	default = 30,
 	page = Airdrop,
 	translation = RandomAirdrops_AirdropTickCheck,
-}
-
-option AirdropMain.AirdropDisableDespawn
-{
-	type = boolean,
-	default = false,
-	page = Airdrop,
-	translation = RandomAirdrops_AirdropDisableDespawn,
-}
-
-option AirdropMain.AirdropDisableOldDespawn
-{
-	type = boolean,
-	default = false,
-	page = Airdrop,
-	translation = RandomAirdrops_AirdropDisableOldDespawn,
 }
 
 option AirdropMain.AirdropConsoleDebug
