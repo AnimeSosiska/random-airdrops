@@ -1,6 +1,6 @@
 version=1
 id=3282789883
-title=Random Airdrops [B42]
+title=Random Airdrops [B41/B42]
 description=[img]https://media1.giphy.com/media/wRhSi68hscY8xNOlXS/giphy.gif[/img]
 description=[h1]A mod for Project Zomboid that allows to create random airdrops! Now updated for Build 42![/h1]
 description=
@@ -24,6 +24,7 @@ description=[*] Air plane sound when the airdrop spawn
 description=[*] If the servers close, old airdrops will be deleted automatically (configurable)
 description=[*] Fully customizable loot table (see the github)
 description=[*] Fully customizable spawn coordinates (see the github)
+description=[*] Or you can use standart loot table and spawn coordinates (this option is enabled on default in sandbox settings)
 description=[/list]
 description=
 description=Original creator of this mod is [url=https://github.com/LeandroTheDev]LeandroTheDev[/url]

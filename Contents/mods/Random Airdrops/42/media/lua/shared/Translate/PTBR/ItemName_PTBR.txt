@@ -1,3 +1,3 @@
 ItemName_PTBR = {
-    ItemName_RandomAirdrops_SmokeFlare = "Sinalizador de Fumaça",
+    ItemName_RandomAirdropsASV.SmokeFlare = "Sinalizador de Fumaça",
 }
