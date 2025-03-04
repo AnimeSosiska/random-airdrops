@@ -1,6 +1,12 @@
 ---@diagnostic disable: undefined-global
 
--- Добавляет текст игроку
+RandomAirdrops = RandomAirdrops or {};
+airdrop_client = {};
+
+airdrop_client.allow = false;
+airdrop_client.x = 0;
+airdrop_client.y = 0;
+
 local function addLineToChat(message, color, username, options)
 	if not isClient() then return end
 
@@ -55,50 +61,68 @@ local function addLineToChat(message, color, username, options)
 	ISChat.addLineInChat(msg, 0);
 end
 
--- Вызывается всякий раз, когда сервер возвращает нам значение
-local function OnServerCommand(module, command, arguments)
-	-- Звуковое оповещение при падении airdrop
-	if module == "ServerAirdrop" and command == "alert" then
-		-- Текст звука для того чтобы послать к игроку
-		local alarmSound = "airdrop" .. tostring(ZombRand(1));
-		-- Выделяем звук, который выйдет
-		local sound = getSoundManager():PlaySound(alarmSound, false, 0);
-		-- Мы отпускаем звук для игрока
-		getSoundManager():PlayAsMusic(alarmSound, sound, false, 0);
-		sound:setVolume(0.1);
+local function getCompassDirection(playerX, playerY, targetX, targetY)
+	local dX = targetX - playerX;
+	local dY = targetY - playerY;
 
-		-- Сообщение в чате о том, что прошел спавн
-		addLineToChat(getText("IGUI_Airdrop_Incoming") .. ": " .. getText("IGUI_Airdrop_Name_" .. arguments.name),
-			"<RGB:" .. "0,255,0" .. ">");
+	local angleRadians = math.atan2(dY, dX);
+
+	local angleDegrees = angleRadians * (180 / math.pi)
+
+	if angleDegrees < 0 then
+		angleDegrees = angleDegrees + 360
 	end
-	-- Звуковое оповещение, когда игрок использует флейр
-	--if module == "ServerAirdrop" and command == "smokeflare" then
-	--	-- Текст звука для того чтобы послать к игроку
-	--	local alarmSound = "smokeflareradio" .. tostring(ZombRand(1));
-	--
-	--	-- Выделяем звук, который выйдет
-	--	local sound = getSoundManager():PlaySound(alarmSound, false, 0);
-	--	-- Мы отпускаем звук для игрока
-	--	getSoundManager():PlayAsMusic(alarmSound, sound, false, 0);
-	--	sound:setVolume(0.4);
-	--
-	--	-- Сообщение в чате о том, что прошел спавн
-	--	addLineToChat(
-	--		getText("IGUI_Airdrop_Smoke_Flare_Message"), "<RGB:" .. "255,0,0" .. ">");
-	--end
-	if module == "ServerAirdrop" and command == "smokeflare_finished" then
-		-- Текст звука для того чтобы послать к игроку
-		local alarmSound = "airdrop" .. tostring(ZombRand(1));
 
-		-- Выделяем звук, который выйдет
-		local sound = getSoundManager():PlaySound(alarmSound, false, 0);
-		-- Мы отпускаем звук для игрока
-		getSoundManager():PlayAsMusic(alarmSound, sound, false, 0);
-		sound:setVolume(0.1);
+	local compassAngle = (90 - angleDegrees)
+	if compassAngle < 0 then
+		compassAngle = compassAngle + 360
+	end
 
-		-- Сообщение в чате о том, что прошел спавн
-		addLineToChat(
-			getText("IGUI_Airdrop_Spawned"), "<RGB:" .. "255,0,0" .. ">");
+	local directions = {
+		{ name = "North",     min = 337.5, max = 360 },
+		{ name = "North",     min = 0,     max = 22.5 },
+		{ name = "NorthEast", min = 22.5,  max = 67.5 },
+		{ name = "East",      min = 67.5,  max = 112.5 },
+		{ name = "SouthEast", min = 112.5, max = 157.5 },
+		{ name = "South",     min = 157.5, max = 202.5 },
+		{ name = "SouthWest", min = 202.5, max = 247.5 },
+		{ name = "West",      min = 247.5, max = 292.5 },
+		{ name = "NorthWest", min = 292.5, max = 337.5 }
+	}
+	local result = "Unknown"
+	for _, dir in ipairs(directions) do
+		if dir.min > dir.max then
+			if compassAngle >= dir.min or compassAngle < dir.max then
+				result = getText("IGUI_Airdrop_Direction_"..dir.name)
+				break
+			end
+		else
+			if compassAngle >= dir.min and compassAngle < dir.max then
+				result = getText("IGUI_Airdrop_Direction_"..dir.name)
+				break
+			end
+		end
+	end
+
+	return result
+end
+
+function RandomAirdrops.FlyOver(_arguments)
+	local pX, pY = getPlayer():getX(), getPlayer():getY();
+
+	local airdropX, airdropY = _arguments.x, _arguments.y
+
+	local dX = airdropX - pX;
+	local dY = airdropY - pY;
+	local distance = math.sqrt(dX * dX + dY * dY);
+
+	if distance > 200 then
+		getPlayer():playSound("FarAirdropSoundPlane");
+		local direction = getCompassDirection(pX, pY, airdropX, airdropY)
+
+		getPlayer():setHaloNote(getText("IGUI_Airdrop_Plane_Seeing").." "..direction, 255, 255, 255, 1000);
+	else
+		return
 	end
 end
-Events.OnServerCommand.Add(OnServerCommand)
+
