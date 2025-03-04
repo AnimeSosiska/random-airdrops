@@ -16,6 +16,17 @@ module RandomAirdropsASV {
         }
     }
 
+    sound FarAirdropSoundPlane {
+        category = RandomAirdrops,
+        loop = false,
+        is3D = false,
+        maxInstancesPerEmitter = 1,
+        clip {
+            file = media/sound/airdrop0.wav,
+            volume = 0.02,
+        }
+    }
+
 	sound SmokeFlareIgnition {
 	    category = RandomAirdrops,
 	    loop = false,
