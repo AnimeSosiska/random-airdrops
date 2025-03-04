@@ -1,5 +1,7 @@
 ---@diagnostic disable: undefined-global, deprecated
 
+RandomAirdrops = RandomAirdrops or {};
+
 -- Переменные производительности
 -- ждём тик, чтобы проверить аирдроп на спавн/деспавн
 local ticksPerCheck = 0;
@@ -28,7 +30,6 @@ end
 
 -- Локально сохраняет все позиции, в которых могут появиться airdrop
 local airdropPositionsDefault = {
-    { x = 10023, y = 11007, z = 0, name = "March_Ridge" },
     { x = 11702, y = 9688, z = 0, name = "Muldraugh" },
     { x = 11580, y = 8824, z = 0, name = "Dixie" },
     { x = 6659, y = 10096, z = 0, name = "Doe_Valley" },
@@ -559,94 +560,85 @@ local function checkSpawnAirdropsExistenceBySpawnIndex(spawnIndex)
     return false;
 end
 
--- Checa se é vai spawnar um airdrop
-function CheckAirdrop()
-    -- Fazemos um check para despawnar os Airdrops Anteriores
+-- Проверка спавна аирдропа
+function RandomAirdrops.CheckAirdrop()
+    -- Если деспавн не выключен - убираем аирдропы
     if not SandboxVars.AirdropMain.AirdropDisableDespawn then
         DespawnAirdrops();
     end
-    -- Checa se vai ter um airdrop nesta chamada 5% de chance
+    -- Та самая проверка на спавн аирдропа
     if ZombRand(100) + 1 <= SandboxVars.AirdropMain.AirdropFrequency then
-        -- Spawna uma unidade de airdrop
-        local airdropLocationName = SpawnAirdrop();
-        -- Verificamos se ele de fato spawnou um airdrop
-        -- afinal em casos de erros ele não ira spawnar
-        if not airdropLocationName then return end;
-        -- Obtém a lista de jogadores online
-        local players = getOnlinePlayers();
-        -- Compatibilidade com singleplayer
-        if not players then
-            -- Texto do Som para emitir ao jogador
-            local alarmSound = "airdrop" .. tostring(ZombRand(1));
-            -- Alocamos o som que vai sair
-            local sound = getSoundManager():PlaySound(alarmSound, false, 0);
-            -- Soltamos o som parao  jogador
-            getSoundManager():PlayAsMusic(alarmSound, sound, false, 0);
-            sound:setVolume(0.1);
-        else -- Caso contrario é um servidor prossiga normal
-            -- Alertamos todos os jogadores que um airdrop foi spawnado
-            for i = 0, players:size() - 1 do
-                -- Obtém o jogador pelo índice
-                local player = players:get(i);
-                -- Emite o alerta ao jogador
-                sendServerCommand(player, "ServerAirdrop", "alert", { name = airdropLocationName });
-            end
-        end
-    else
-        print("[Air Drop] Global airdrop spawn check: no");
-    end
-end
+        RandomAirdrops.spawnIndex = 0;
+        local tries = 20;
+        while tries > 0 do
 
--- Spawna um airdrop ao mundo aleatoriamente
-function SpawnAirdrop()
-    local spawnIndex = 0;
-
-    -- Seleciona aleatoriamente uma area de spawn que não foi spawnada ainda
-    local tries = 20;
-    while tries > 0 do
-        -- Checa se airdropPositions é vazio
-        if #usingAirdropPositions == 0 then
-            tries = 0; break;
-        end
-        spawnIndex = ZombRand(#usingAirdropPositions) + 1
-        local alreadySpawned = false;
-        -- Varre todos os airdrops spawnados para ver se o index é diferente
-        for i = 1, #SpawnedAirdrops do
-            -- Verificamos se o index já foi usado
-            if SpawnedAirdrops[i].index == spawnIndex then
-                -- Refaça
-                alreadySpawned = true;
-                break;
+            if #usingAirdropPositions == 0 then
+                tries = 0; break;
             end
-        end
-        -- Se a variavel disable old despawn estiver ativa então
-        -- precisamos verificar também se não existe spawnado já no OldAirdrops
-        if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
-            -- Varre todos os airdrops spawnados para ver se o index é diferente
-            for i = 1, #AirdropsData.OldAirdrops do
-                -- Verificamos se o index já foi usado
-                if AirdropsData.OldAirdrops[i] == spawnIndex then
-                    -- Refaça
+
+            RandomAirdrops.spawnIndex = ZombRand(#usingAirdropPositions) + 1;
+            local alreadySpawned = false;
+            for i = 1, #SpawnedAirdrops do
+                if SpawnedAirdrops[i].index == spawnIndex then
                     alreadySpawned = true;
                     break;
                 end
             end
-        end
-        -- Se ja spawno então
-        if alreadySpawned then
-            -- Reduzimos a menos 1 as tentativas
-            tries = tries - 1;
-        end
-        -- Verifica se não foi spawnado ainda
-        if not alreadySpawned then break end
-        print("[Air Drop] Cannot spawn airdrop, the index " .. spawnIndex .. " has already in use");
-    end
 
-    -- Caso não encontre um index que não foi spawnado
-    if tries <= 0 then
-        print("[Air Drop] Warning cannot find a spawn area that has not been spawned, air drop not spawned");
-        return nil;
+            if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
+                for i = 1, #AirdropsData.OldAirdrops do
+                    if AirdropsData.OldAirdrops[i] == spawnIndex then
+                        alreadySpawned = true;
+                        break;
+                    end
+                end
+            end
+
+            if alreadySpawned then
+                tries = tries - 1;
+            end
+            if not alreadySpawned then break end
+            print("[Air Drop] Cannot spawn airdrop, the index " .. spawnIndex .. " has already in use");
+        end
+
+        if tries <= 0 then
+            print("[Air Drop] Warning cannot find a spawn area that has not been spawned, air drop not spawned");
+            return nil;
+        end
+
+        local spawnAreaName = ""
+        if SandboxVars.AirdropMain.DefaultAirdropCoordinates then
+            spawnAreaName = getText("IGUI_Airdrop_Name_"..usingAirdropPositions[RandomAirdrops.spawnIndex].name)
+        else
+            spawnAreaName = getText(usingAirdropPositions[RandomAirdrops.spawnIndex].name)
+        end
+        -- Добавляем задержку спавна аирдропа
+        RandomAirdrops.delay = 0;
+        Events.EveryTenMinutes.Add(SpawnAirdropDelay)
+        -- Возвращаем в aidrop_radio зону спавна
+        return spawnAreaName;
+
+    else
+        print("[Air Drop] Global airdrop spawn chance check: no");
+        return false;
     end
+end
+
+function SpawnAirdropDelay()
+    local rand = newrandom()
+    -- Ожидаем от 40 до 90 минут перед спавном аирдропа
+    if RandomAirdrops.delay < rand:random(4, 9)  then
+        RandomAirdrops.delay = RandomAirdrops.delay + 1;
+        return;
+    end
+    Events.EveryTenMinutes.Remove(SpawnAirdropDelay);
+
+    SpawnAirdrop(RandomAirdrops.spawnIndex);
+end
+
+-- Spawna um airdrop ao mundo aleatoriamente
+function SpawnAirdrop(_spawnIndex)
+    local spawnIndex = _spawnIndex;
 
     -- Recebemos a area de spawn
     local spawnArea = usingAirdropPositions[spawnIndex];
@@ -677,8 +669,13 @@ function SpawnAirdrop()
             spawnArea.x .. " Y: " .. spawnArea.y);
     end
 
-    -- Retornamos o nome da area de spawn
-    return spawnArea.name;
+    getSoundManager():PlayWorldSound("AirdropSoundPlane", getCell():getGridSquare(spawnArea.x, spawnArea.y, spawnArea.z), 0, 200, 5, true);
+    getWorldSoundManager():addSound(spawnArea,
+            spawnArea.x,
+            spawnArea.y,
+            spawnArea.z,
+            200, 10);
+    RandomAirdrops.FlyOver(spawnArea);
 end
 
 -- Reduz a setença para despawnar, chamado a cada hora ingame
@@ -955,7 +952,10 @@ function CheckForCreateAirdrop()
         if not checkOldAirdropsExistenceBySpawnIndex(spawnIndex) then
             local spawnArea = usingAirdropPositions[spawnIndex];
             -- Recebemos o square
-            local square = getCell():getGridSquare(spawnArea.x, spawnArea.y, spawnArea.z)
+            local square
+            if (spawnArea) then
+                square = getCell():getGridSquare(spawnArea.x, spawnArea.y, spawnArea.z)
+            end
             -- Verificamos se o square esta sendo carregado
             if square then
                 -- Adicionamos o airdrop no mundo
@@ -1025,25 +1025,20 @@ function SpawnSpecificAirdrop(spawnArea)
     end
 end
 
--- A cada hora dentro do jogo verifica se vai ter air drop
-Events.EveryHours.Add(CheckAirdrop);
-
 -- Carregamos os dados
 Events.OnInitGlobalModData.Add(function(isNewGame)
     AirdropsData = ModData.getOrCreate("serverAirdropsData");
     -- Null Check
     if not AirdropsData.OldAirdrops then AirdropsData.OldAirdrops = {} end
     if not AirdropsData.SpecificAirdropsSpawned then AirdropsData.SpecificAirdropsSpawned = {} end
-    -- Carrega todas as configurações
     readAirdropsPositions();
     readAirdropsLootTable();
 
-    if SandboxVars.AirdropMain.DefaultAirdropPositions then
+    if SandboxVars.AirdropMain.DefaultAirdropCoordinates then
         usingAirdropPositions = deepcopy(airdropPositionsDefault);
     else
         usingAirdropPositions = deepcopy(airdropPositions);
     end
-
     if SandboxVars.AirdropMain.DefaultAirdropLootTable then
         usingAirdropLootTable = deepcopy(airdropLootTableDefault);
     else
