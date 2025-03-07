@@ -19,9 +19,3 @@ The mod is must be compatible with dedicated servers and singleplayer
 - if the chunk in that specific position is loaded then the airdrop will be created
 - when the timer goes below the 0 the airdrop will be removed from the world and from the cache if not created yet, unless the player is loading the chunk of the airdrop
 - when the server starts all old airdrops will be despawned when the chunk loads
-
-Links to mod's wiki from original author:
-
-[Changing The Loot Table](https://github.com/LeandroTheDev/random_airdrops/wiki/Creating-Loot-Tables)
-
-[Changing Airdrop Spawn Coordinates](https://github.com/LeandroTheDev/random_airdrops/wiki/Adding-New-Coordinates-to-Spawn)
