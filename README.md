@@ -6,9 +6,10 @@ The mod is must be compatible with dedicated servers and singleplayer
 ### Features
 - Airdrops never spawn above each other
 - Airdrops doesnt despawn if player is close
-- Message to player chat when the airdrop is spawned + area name (Only in servers, because single player doenst have chat)
-- Air plane sound when the air drop spawn
-- If the servers close, old airdrops will be deleted automatically (Configurable)
+- Message with direction to airdrop above player when airdrop plane is too far away
+- Random radio frequency that tells if there's an airdrop going to be dropped (You can find it in random radios and walkie talkies)
+- Airplane sound when the airdrop spawn
+- If the servers closes, old airdrops will be deleted automatically (Configurable)
 - Fully customizable loot table (see the github wiki)
 - Fully customizable spawn coordinates (see the github wiki)
 

@@ -3,8 +3,8 @@ id=3282789883
 title=Random Airdrops [B41/B42]
 description=[img]https://media1.giphy.com/media/wRhSi68hscY8xNOlXS/giphy.gif[/img]
 description=[h1]A mod for Project Zomboid that allows to create random airdrops! Now updated for Build 42![/h1]
+description=(B41 is not likely to be updated)
 description=
-description=I changed [b]a lot of[/b] things when was updating this mod to b42, so pretty please send your feedback about bugs or whatever
 description=
 description=[h2]What this mod can do:[/h2]
 description=[list]
@@ -19,8 +19,9 @@ description=[h2]Features:[/h2]
 description=[list]
 description=[*] Airdrops never spawn above each other
 description=[*] Airdrops doesnt despawn if player is close
-description=[*] Message to player chat when the airdrop is spawned + area name (doesn't work in singleplayer because singleplayer doesn't have chat)
-description=[*] Air plane sound when the airdrop spawn
+description=[*] Message with direction to airdrop above player when airdrop plane is too far away
+description=[*] Random radio frequency that tells if there's an airdrop going to be dropped (You can find it in random radios and walkie talkies)
+description=[*] Airplane sound when the airdrop spawn
 description=[*] If the servers close, old airdrops will be deleted automatically (configurable)
 description=[*] Fully customizable loot table (see the github)
 description=[*] Fully customizable spawn coordinates (see the github)
@@ -31,8 +32,9 @@ description=Original creator of this mod is [url=https://github.com/LeandroTheDe
 description=
 description=GitHub:[url=https://github.com/AnimeSosiska/random_airdrops]AnimeAss[/url]
 description=
-description=Ofc this mod will be updating, so if you have any ideas or have found bug - feel free to tell in the comments or [spoiler](pls, do this instead)[/spoiler] on github page of mod. Love y'all <3
+description=Love y'all <3
 description=
+description=If needed, you can contact me on discord (same username as steam), but [url=https://nohello.club]keep conversation simple[/url]
 description=If you would like to support me: [b]2200 2407 6361 2252[/b]
 tags=Build 41;Build 42;Items;Military;Models;Multiplayer;Realistic;Textures
 visibility=public
