@@ -30,23 +30,21 @@ end
 
 -- Локально сохраняет все позиции, в которых могут появиться airdrop
 local airdropPositionsDefault = {
-    { x = 11702, y = 9688, z = 0, name = "Muldraugh" },
+    { x = 10592, y = 9737, z = 0, name = "Muldraugh" },
     { x = 11580, y = 8824, z = 0, name = "Dixie" },
-    { x = 6659, y = 10096, z = 0, name = "Doe_Valley" },
-    { x = 10080, y = 12603, z = 0, name = "March_Ridge" },
-    { x = 9194, y = 11812, z = 0, name = "Rosewood" },
-    { x = 5615, y = 5933, z = 0, name = "Riverside" },
-    { x = 11289, y = 7114, z = 0, name = "West_Point" },
-    { x = 10150, y = 6859, z = 0, name = "Nearest_West_Point" },
-    { x = 3785, y = 9166, z = 0, name = "Far_Away_from_Riverside" },
-    { x = 5710, y = 11186, z = 0, name = "Far_Away_from_Rosewood" },
-    { x = 14033, y = 5750, z = 0, name = "Valley_Station" },
-    { x = 6598, y = 5193, z = 0, name = "Riverside" },
-    { x = 7847, y = 11699, z = 0, name = "Nearest_Rosewood" },
-    { x = 9790, y = 12356, z = 0, name = "Nearest_March_Ridge" },
-    { x = 9363, y = 12546, z = 0, name = "Nearest_Rosewood" },
-    { x = 10931, y = 8775, z = 0, name = "Nearest_Muldraugh" },
-    { x = 12832, y = 4423, z = 0, name = "Louis_Ville" }
+    { x = 7277, y = 8354, z = 0, name = "Fallas_Lake" },
+    { x = 10088, y = 12697, z = 0, name = "March_Ridge" },
+    { x = 8106, y = 11577, z = 0, name = "Rosewood" },
+    { x = 6381, y = 5282, z = 0, name = "Riverside" },
+    { x = 11921, y = 6899, z = 0, name = "West_Point" },
+    { x = 15185, y = 2758, z = 0, name = "Louis_Ville_Airport" },
+    { x = 12936, y = 2999, z = 0, name = "Louis_Ville" },
+    { x = 8041, y = 15285, z = 0, name = "Water_Treatment_Plant" },
+    { x = 2501, y = 14099, z = 0, name = "Irvington" },
+    { x = 13522, y = 4899, z = 0, name = "Valley_Station" },
+    { x = 3520, y = 10924, z = 0, name = "Echo_Creek" },
+    { x = 600, y = 9809, z = 0, name = "Ekron" },
+    { x = 2100, y = 6284, z = 0, name = "Brandenburg" }
 };
 local airdropPositions = {};
 local usingAirdropPositions = {};
@@ -226,7 +224,7 @@ local usingAirdropLootTable = {};
 -- airdrop = BaseVehicle / Буквально airdrop / будет равен нулю, когда airdrop еще не был создан!!!
 -- ticksToDespawn = int / когда эта переменная достигнет 0, airdrop будет удален в функции DespawnAirdrops
 -- index = int / это индекс позиций airdrop, мы используем его для проверки, был ли уже спавн в той области / spawnIndex
-SpawnedAirdrops = SpawnedAirdrops or {};
+SpawnedAirdrops = SpawnedAirdrop or {};
 -- Сохраняйте глобально airdrop, которые еще будут спавниться, но не были заспавнены, потому что никто не загрузил чанк
 -- эта переменная используется всегда, когда она отлична от 0, чтобы проверить, загружает ли кто-то чанк
 -- содержит только элемент индекса позиций воздушных сбросов / spawnIndex
@@ -454,32 +452,6 @@ local function removeElementFromOldAirdropsDataBySpawnIndex(spawnIndex)
     end
 end
 
--- Уменьшает ticksToDespawn на основе spawnIndex
-local function reduceTicksToDespawnFromSpawnedAirdropsBySpawnIndex(spawnIndex)
-    -- Сканирование в AirdropsToSpawn
-    for i = 1, #SpawnedAirdrops do
-        -- Проверяет, является ли spawnIndex таким же, как у SpawnedAirdrops
-        if spawnIndex == SpawnedAirdrops[i].index then
-            -- Уменьшаем таблицу
-            SpawnedAirdrops[i].ticksToDespawn = SpawnedAirdrops[i].ticksToDespawn - 1;
-            break;
-        end
-    end
-end
-
--- Уменьшает ticksToDespawn на основе spawnIndex
-local function reduceTicksToDespawnFromOldAirdropsDataBySpawnIndex(spawnIndex)
-    -- Сканирование в AirdropsToSpawn
-    for i = 1, #AirdropsData.OldAirdropsData do
-        -- Проверяет, является ли spawnIndex таким же, как у SpawnedAirdrops
-        if spawnIndex == AirdropsData.OldAirdropsData[i].index then
-            -- Уменьшаем таблицу
-            AirdropsData.OldAirdropsData[i].ticksToDespawn = AirdropsData.OldAirdropsData[i].ticksToDespawn - 1;
-            break;
-        end
-    end
-end
-
 -- Adiciona o aidrop no SpawnedAirdrops baseado no spawnIndex
 local function addAirdropToSpawnedAirdropsBySpawnIndex(spawnIndex, airdrop)
     -- Varredura nos SpawnedAirdrops
@@ -490,19 +462,6 @@ local function addAirdropToSpawnedAirdropsBySpawnIndex(spawnIndex, airdrop)
             SpawnedAirdrops[i].airdrop = airdrop;
             -- Adicionamos o id do airdrop a lista de OldAirdrops
             table.insert(AirdropsData.OldAirdrops, spawnIndex);
-            break;
-        end
-    end
-end
-
--- Adiciona o aidrop no SpawnedAirdrops baseado no spawnIndex
-local function addTrueToOldAirdropsDataBySpawnIndex(spawnIndex)
-    -- Varredura nos SpawnedAirdrops
-    for i = 1, #AirdropsData.OldAirdropsData do
-        -- Verifica se o spawnIndex é o mesmo do OldAirdropsData
-        if spawnIndex == AirdropsData.OldAirdropsData[i].index then
-            -- Colocamos para true
-            AirdropsData.OldAirdropsData[i].airdrop = true;
             break;
         end
     end
@@ -562,10 +521,6 @@ end
 
 -- Проверка спавна аирдропа
 function RandomAirdrops.CheckAirdrop()
-    -- Если деспавн не выключен - убираем аирдропы
-    if not SandboxVars.AirdropMain.AirdropDisableDespawn then
-        DespawnAirdrops();
-    end
     -- Та самая проверка на спавн аирдропа
     if ZombRand(100) + 1 <= SandboxVars.AirdropMain.AirdropFrequency then
         RandomAirdrops.spawnIndex = 0;
@@ -644,8 +599,7 @@ function SpawnAirdrop(_spawnIndex)
     local spawnArea = usingAirdropPositions[spawnIndex];
 
     -- Adicionamos a lista de airdrops spawnados
-    table.insert(SpawnedAirdrops,
-        { airdrop = nil, ticksToDespawn = SandboxVars.AirdropMain.AirdropRemovalTimer, index = spawnIndex });
+    table.insert(SpawnedAirdrops, { airdrop = nil, ticksToDespawn = SandboxVars.AirdropMain.AirdropRemovalTimer, index = spawnIndex });
     -- Adicionamos na lista de airdrops ainda para spawnar
     table.insert(AirdropsToSpawn, spawnIndex);
 
@@ -653,8 +607,7 @@ function SpawnAirdrop(_spawnIndex)
     -- para podermos adicionar os dados a OldAirdropsData
     if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
         -- Adicionamos a lista de OldAirdropsData
-        table.insert(AirdropsData.OldAirdropsData,
-            { airdrop = false, ticksToDespawn = SandboxVars.AirdropMain.AirdropRemovalTimer, index = spawnIndex });
+        table.insert(AirdropsData.OldAirdropsData, { airdrop = false, ticksToDespawn = SandboxVars.AirdropMain.AirdropRemovalTimer, index = spawnIndex });
     end
 
     -- Precisamos fazer isso pois pode ser que tenha mais de um airdrop por dia
@@ -678,98 +631,71 @@ function SpawnAirdrop(_spawnIndex)
     RandomAirdrops.FlyOver(spawnArea);
 end
 
--- Reduz a setença para despawnar, chamado a cada hora ingame
--- se existir setenças Despawna os airdrops, caso for um Especial inicia
--- o evento OnTick para ForceDespawnAirdrops
-function DespawnAirdrops()
-    -- Precisamos salvar localmente a variavel para não ter atualizações indevidas
-    -- durante o check, já que a atualização é feita durane o for
+function RandomAirdrops.DespawnAirdrops()
     local localSpawnedAirdrops = deepcopy(SpawnedAirdrops);
-    -- Varremos todos os airdrops spawnados
     for i = 1, #localSpawnedAirdrops do
-        -- Caso o airdrop não esteja setenciado apenas prossiga para o proximo
         if localSpawnedAirdrops[i].ticksToDespawn <= 0 then
-            -- Recebemos o airdrop pelo indice
             local airdrop = localSpawnedAirdrops[i].airdrop;
 
-            -- Checamos se airdrop é nulo e se esta setenciado
-            -- Se estiver nulo significa que ele ainda não foi spawnado oficialmente
             if not airdrop then
-                -- Agora precisamos das tabelas
                 local spawnIndex = localSpawnedAirdrops[i].index;
-                -- Pegamos as posições diretamente do airdropPositions
-                -- porque o aidrop não foi spawnado ainda
                 print("[Air Drop] Uncreated Air drop has been removed in X:" ..
                     usingAirdropPositions[spawnIndex].x .. " Y:" .. usingAirdropPositions[spawnIndex].y);
-                -- Removemos da nossa lista de AirdropsToSpawn
                 removeElementFromAirdropsToSpawnBySpawnIndex(spawnIndex);
-                -- Removemos da nossa lista de SpawnedAirdrops
                 removeElementFromSpawnedAirdropsBySpawnIndex(spawnIndex);
-                -- Verificamos se DisableOldDespawne esta ativo
                 if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
-                    -- Removemos da tabela de OldAirdropsData
                     removeElementFromOldAirdropsDataBySpawnIndex(spawnIndex)
                 end
-                -- Prosseguimos para o proximo indice
-            else -- Caso o airdrop foi criado então temos alguma validações
-                -- Checamos se existe algum jogador por perto
+            else
                 local havePlayerAround = checkPlayersAround(airdrop);
 
                 local spawnIndex = localSpawnedAirdrops[i].index;
 
-                -- Se não há jogadores por perto
                 if not havePlayerAround then
-                    -- Removemos permanentemente do mundo
                     airdrop:permanentlyRemove();
                     print("[Air Drop] Air drop has been removed in X:" .. airdrop:getX() .. " Y:" .. airdrop:getY());
-                    -- Removemos da nossa lista de SpawnedAirdrops
                     removeElementFromSpawnedAirdropsBySpawnIndex(spawnIndex);
-                    -- Removemos da nossa lista de OldAirdrops
                     removeAirdropFromOldAirdropsBySpawnIndex(spawnIndex);
-                    -- Verificamos se DisableOldDespawne esta ativo
                     if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
-                        -- Removemos da tabela de OldAirdropsData
                         removeElementFromOldAirdropsDataBySpawnIndex(spawnIndex)
                     end
                 end
             end
         else
-            -- Reduzimos em 1 o tick para despawnar do airdrop
-            reduceTicksToDespawnFromSpawnedAirdropsBySpawnIndex(localSpawnedAirdrops[i].index);
+            for j = 1, #SpawnedAirdrops do
+                if localSpawnedAirdrops[i].index == SpawnedAirdrops[j].index then
+                    SpawnedAirdrops[j].ticksToDespawn = SpawnedAirdrops[j].ticksToDespawn - 1;
+                    break;
+                end
+            end
         end
     end
 
-    -- Varremos todos os airdrops especiais
     for i = 1, #AirdropsData.SpecificAirdropsSpawned do
-        -- Verificamos a setença
         if AirdropsData.SpecificAirdropsSpawned[i].ticksToDespawn <= 0 then
-            -- Removemos e adicionamos para não ter problemas de memoria e performance
             Events.OnTick.Remove(ForceDespawnAirdrops);
             Events.OnTick.Add(ForceDespawnAirdrops);
         else
-            -- Reduzimos a setença
-            AirdropsData.SpecificAirdropsSpawned[i].ticksToDespawn = AirdropsData.SpecificAirdropsSpawned[i]
-                .ticksToDespawn - 1;
+            AirdropsData.SpecificAirdropsSpawned[i].ticksToDespawn = AirdropsData.SpecificAirdropsSpawned[i].ticksToDespawn - 1;
         end
     end
 
-    -- Se o DisableOldDespawn estiver ativo, precisamos verificar o OldAirdropsData
     if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
-        -- Varremos todos os dados
         for i = 1, #AirdropsData.OldAirdropsData do
             local data = AirdropsData.OldAirdropsData[i];
-            -- Verificamos se esta setenciado
             if data.ticksToDespawn <= 0 then
-                -- Se a existencia de OldAirdrops não existe em SpawnedAirdrops
-                if not checkSpawnAirdropsExistenceBySpawnIndex(data.index) then
-                    -- Adicionamos ele ao RemovingOldAirdrops para ForceDespawnAirdrops
+                if checkSpawnAirdropsExistenceBySpawnIndex(data.index) then
                     table.insert(AirdropsData.RemovingOldAirdrops, data.index);
-                    -- Removemos e adicionamos para não ter problemas de memoria e performance
                     Events.OnTick.Remove(ForceDespawnAirdrops);
                     Events.OnTick.Add(ForceDespawnAirdrops);
                 end
             else
-                reduceTicksToDespawnFromOldAirdropsDataBySpawnIndex(data.index);
+                for j = 1, #AirdropsData.OldAirdropsData do
+                    if data.index == AirdropsData.OldAirdropsData[j].index then
+                        AirdropsData.OldAirdropsData[j].ticksToDespawn = AirdropsData.OldAirdropsData[j].ticksToDespawn - 1;
+                        break;
+                    end
+                end
             end
         end
     end
@@ -972,13 +898,20 @@ function CheckForCreateAirdrop()
                 removeElementFromAirdropsToSpawnBySpawnIndex(spawnIndex);
 
                 -- Adicionamos o aidrop para lista de SpawnedAirdrops
-                addAirdropToSpawnedAirdropsBySpawnIndex(spawnIndex, airdrop);
+                addAirdropToSpawnedAirdropsBySpawnIndex(spawnIndex, airdrop)
 
                 -- Precisamos verificar se DisableOldDespawn esta ativo
                 -- para podermos adicionar dizer que airdrop é true na lista de OldAirdropsData
                 if SandboxVars.AirdropMain.AirdropDisableOldDespawn then
                     -- Colocamos para true
-                    addTrueToOldAirdropsDataBySpawnIndex(spawnIndex);
+                    for j = 1, #AirdropsData.OldAirdropsData do
+                        -- Verifica se o spawnIndex é o mesmo do OldAirdropsData
+                        if spawnIndex == AirdropsData.OldAirdropsData[j].index then
+                            -- Colocamos para true
+                            AirdropsData.OldAirdropsData[j].airdrop = true;
+                            break;
+                        end
+                    end
                 end
 
                 if SandboxVars.AirdropMain.AirdropConsoleDebugCoordinates then
@@ -1030,6 +963,8 @@ Events.OnInitGlobalModData.Add(function(isNewGame)
     AirdropsData = ModData.getOrCreate("serverAirdropsData");
     -- Null Check
     if not AirdropsData.OldAirdrops then AirdropsData.OldAirdrops = {} end
+    if not AirdropsData.OldAirdropsData then AirdropsData.OldAirdropsData = {} end
+    if not AirdropsData.RemovingOldAirdrops then AirdropsData.RemovingOldAirdrops = {} end
     if not AirdropsData.SpecificAirdropsSpawned then AirdropsData.SpecificAirdropsSpawned = {} end
     readAirdropsPositions();
     readAirdropsLootTable();

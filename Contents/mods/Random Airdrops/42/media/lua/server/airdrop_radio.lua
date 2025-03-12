@@ -17,7 +17,7 @@ local config =
 
 table.insert(DynamicRadio.channels, config)
 
-function airdropRadio.OnLoadRadioScripts()
+function airdropRadio.OnLoadRadioScripts(_scriptManager)
     airdropRadio.Init();
     table.insert(DynamicRadio.scripts, airdropRadio);
 end
@@ -29,11 +29,15 @@ end
 airdropRadio.lastAirdropDay = nil
 function airdropRadio.OnEveryHour(_channel, _gametime)
     local currentDay = _gametime:getDay();
+    -- Если деспавн не выключен - убираем аирдропы
+    if not SandboxVars.AirdropMain.AirdropDisableDespawn then
+        RandomAirdrops.DespawnAirdrops();
+    end
 
+    -- Если за этот день уже появлялся аирдроп - выходим из функции
     if airdropRadio.lastAirdropDay == currentDay then
         return
     end
-
     local airdropSpawnAreaName = RandomAirdrops.CheckAirdrop();
     if not airdropSpawnAreaName == false then
         local bc = airdropRadio.CreateBroadcast(airdropSpawnAreaName);
@@ -60,6 +64,8 @@ function airdropRadio.FillBroadcast(_bc, _airdropName)
     airdropRadio.GetIntroString(_bc, _nameRandom);
 
     airdropRadio.GetMessageString(_bc, _nameRandom, _airdropName);
+
+    --airdropRadio.GetCordMessageString(_bc, _airdropName);
 
     airdropRadio.GetArrivalTimeString(_bc, _nameRandom);
 
@@ -133,7 +139,7 @@ function airdropRadio.GetMessageString(_bc, _nameRandom, _airdropName)
     local c = {};
     local lineNum = rand:random(1,4);
     local str = string.format("IGUI_AirdropRadio_Message_%s", lineNum);
-    s = getText(str).." ".._airdropName
+    s = getText(str).." "..getText(string.format("IGUI_Airdrop_Name_%s", _airdropName))
     if _nameRandom == 1 then
         c = RadioChatter.Alpha.c;
     elseif _nameRandom == 2 then
@@ -156,7 +162,14 @@ function airdropRadio.GetArrivalTimeString(_bc, _nameRandom)
         c = RadioChatter.Charlie.c;
     end
     _bc:AddRadioLine(RadioLine.new(s, c.r, c.g, c.b));
+    --RandomAirdrops.GettingRadioInfo(airdropRadio.channelUUID);
 end
+--
+--function airdropRadio.GetCordMessageString(_bc, _airdropName)
+--    local s = ""
+--    local c = {}
+--    s = getText("IGUI_AirdropRadio_Coordinates").." "
+--end
 
 RadioChatter = {}
 RadioChatter.Alpha = {}

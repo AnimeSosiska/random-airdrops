@@ -3,67 +3,15 @@
 RandomAirdrops = RandomAirdrops or {};
 airdrop_client = {};
 
-airdrop_client.allow = false;
-airdrop_client.x = 0;
-airdrop_client.y = 0;
 
-local function addLineToChat(message, color, username, options)
-	if not isClient() then return end
-
-	if type(options) ~= "table" then
-		options = {
-			showTime = false,
-			serverAlert = false,
-			showAuthor = false,
-		};
-	end
-
-	if type(color) ~= "string" then
-		color = "<RGB:1,1,1>";
-	end
-
-	if options.showTime then
-		local dateStamp = Calendar.getInstance():getTime();
-		local dateFormat = SimpleDateFormat.new("H:mm");
-		if dateStamp and dateFormat then
-			message = color .. "[" .. tostring(dateFormat:format(dateStamp) or "N/A") .. "]  " .. message;
-		end
-	else
-		message = color .. message;
-	end
-
-	local msg = {
-		getText = function(_)
-			return message;
-		end,
-		getTextWithPrefix = function(_)
-			return message;
-		end,
-		isServerAlert = function(_)
-			return options.serverAlert;
-		end,
-		isShowAuthor = function(_)
-			return options.showAuthor;
-		end,
-		getAuthor = function(_)
-			return tostring(username);
-		end,
-		setShouldAttractZombies = function(_)
-			return false
-		end,
-		setOverHeadSpeech = function(_)
-			return false
-		end,
-	};
-
-	if not ISChat.instance then return; end;
-	if not ISChat.instance.chatText then return; end;
-	ISChat.addLineInChat(msg, 0);
-end
-
+airdrop_client.x = 0
+airdrop_client.y = 0
 local function getCompassDirection(playerX, playerY, targetX, targetY)
+	airdrop_client.x = targetX
+	airdrop_client.y = targetY
+
 	local dX = targetX - playerX;
-	local dY = targetY - playerY;
+	local dY = playerY - targetY;
 
 	local angleRadians = math.atan2(dY, dX);
 
@@ -108,7 +56,8 @@ local function getCompassDirection(playerX, playerY, targetX, targetY)
 end
 
 function RandomAirdrops.FlyOver(_arguments)
-	local pX, pY = getPlayer():getX(), getPlayer():getY();
+	local player = getPlayer()
+	local pX, pY = player:getX(), player:getY();
 
 	local airdropX, airdropY = _arguments.x, _arguments.y
 
@@ -116,11 +65,15 @@ function RandomAirdrops.FlyOver(_arguments)
 	local dY = airdropY - pY;
 	local distance = math.sqrt(dX * dX + dY * dY);
 
+	if player:isAsleep() or player:isDead() then
+		return
+	end
+
 	if distance > 200 then
-		getPlayer():playSound("FarAirdropSoundPlane");
+		player:playSound("FarAirdropSoundPlane");
 		local direction = getCompassDirection(pX, pY, airdropX, airdropY)
 
-		getPlayer():setHaloNote(getText("IGUI_Airdrop_Plane_Seeing").." "..direction, 255, 255, 255, 1000);
+		player:setHaloNote(getText("IGUI_Airdrop_Plane_Seeing").." "..direction, 255, 255, 255, 1000);
 	else
 		return
 	end
