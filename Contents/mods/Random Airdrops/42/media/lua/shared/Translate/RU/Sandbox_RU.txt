@@ -11,7 +11,7 @@ Sandbox_EN = {
 	Sandbox_RandomAirdrops_AirdropRemovalTimer_tooltip = "Количество внутриигровых часов, которые должны пройти, перед тем как Аирдроп пропадет.",
 
 	Sandbox_RandomAirdrops_AirdropFrequency = "Частота Аирдропов",
-	Sandbox_RandomAirdrops_AirdropFrequency_tooltip = "Шанс появления любого из Аирдропов за один внутриигровой час.",
+	Sandbox_RandomAirdrops_AirdropFrequency_tooltip = "Шанс появления любого из Аирдропов за один внутриигровой час. Спавн происходит лишь раз в день.",
 
 	Sandbox_RandomAirdrops_AirdropTickCheck = "Тикрейт проверки чанка с Аирдропом",
 	Sandbox_RandomAirdrops_AirdropTickCheck_tooltip = "Это самая важная настройка с точки зрения производительности, она влияет на то, сколько тиков сервер будет ЖДАТЬ, чтобы проверить, находится ли игрок в зоне для появления/удаления аирдропа (аирдроп не появляется, если игрок не в зоне его рендера).",
